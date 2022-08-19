@@ -1,0 +1,1 @@
+from webcats.settings.settings_base import *

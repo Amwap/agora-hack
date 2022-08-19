@@ -1,0 +1,15 @@
+[Unit]
+Description=webcats develop
+
+[Service]
+User=webcats_django_template_user
+Restart=always
+RestartSec=5
+Nice=1
+SuccessExitStatus=0 1
+WorkingDirectory=/var/www/python/webcats/
+ExecStart=/var/www/python/webcats/venv/bin/uwsgi --ini webcats/config/uwsgi/uwsgi.ini
+ExecStop=/var/www/python/webcats/venv/bin/uwsgi --stop webcats/config/uwsgi/webcats.pid
+
+[Install]
+WantedBy=multi-user.target
