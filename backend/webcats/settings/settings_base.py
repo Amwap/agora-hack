@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'djoser',
 
     'apps.auth_app',
-    'apps.page_app',
     'apps.editor_app',
 ]
 
