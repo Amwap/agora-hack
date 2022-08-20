@@ -19,8 +19,6 @@ class Element(models.Model):
     id = models.IntegerField(primary_key=True)
     parent_element = models.ForeignKey('self', on_delete=models.CASCADE)
     position = models.IntegerField()
-    height = models.IntegerField()
-    width = models.IntegerField()
     type = models.CharField(choices=PositionTypes.choices, default=PositionTypes.ROW)
     styles = models.JSONField()
 
@@ -36,7 +34,6 @@ class Project(models.Model):
     title = models.CharField(null=False, unique=True)
     created_at = models.DateTimeField("Created at", auto_now_add=True, default=timezone.now())
     last_edit = models.DateTimeField("Last edit", auto_now=True, default=timezone.now())
-    main_frame = models.OneToOneField(Element, on_delete=models.CASCADE)
 
     @property
     def creation_datetime(self):
