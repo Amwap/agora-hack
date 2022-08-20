@@ -1,10 +1,20 @@
-<script setup>
-import { RouterLink, RouterView } from "vue-router";
-import "bootstrap";
-</script>
+
 
 <template>
-  <RouterView />
+    <div>
+      <!-- <Header/> -->
+      <RouterView/>
+    </div>
 </template>
 
-<style scoped></style>
+<script setup>
+import Header from '@/components/Header.vue';
+import { RouterLink, RouterView } from "vue-router";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
+
+</script>
+
+<style style="scss">
+
+</style>

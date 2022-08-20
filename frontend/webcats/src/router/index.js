@@ -9,13 +9,13 @@ const router = createRouter({
       component: () => import("../views/Home.vue"),
     },
     {
-      path: "/editor",
+      path: "/editor/:project_id",
       name: "about",
       component: () => import("../views/Editor.vue"),
     },
     {
-      path: "/preview",
-      name: "about",
+      path: "/preview/:project_id",
+      name: "preview",
       component: () => import("../views/Preview.vue"),
     },
   ],
