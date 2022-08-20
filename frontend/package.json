@@ -1,7 +1,17 @@
 {
   "dependencies": {
+    "@mcistudio/vue-colorpicker": "^2.0.0",
+    "a-color-picker": "^1.2.1",
     "bootstrap": "^5.2.0",
-    "moment": "^2.29.4"
+    "bootstrap-colorpicker": "^3.4.0",
+    "moment": "^2.29.4",
+    "one-colorpicker": "^1.0.12",
+    "simple-color-picker": "^1.0.5",
+    "verte": "^0.0.12",
+    "vue-accessible-color-picker": "^4.0.4",
+    "vue-color": "^2.8.1",
+    "vue-color-kit": "^1.0.5",
+    "vuejs-colorpicker": "^1.0.0"
   },
   "devDependencies": {
     "sass": "^1.54.4"

@@ -1,38 +1,26 @@
 <template lang="">
-    <div>
-        <div 
-            v-if="node.item_list && node.item_list.length"
-            class="p-1 item" 
-            :class="`col-md-${node.width}`"
-            @click.stop="handleClick(node)"
-            
-            > 
-            <node v-for="item in node.item_list" :node="item" :handle-click="handleClick"></node>
-        </div>
-        <div 
-            v-else
-            class="p-1 item" 
-            :class="`col-md-${node.width}`"
-            @click.stop="handleClick(node)"
-            
-            > 
-        </div>
-    </div>
+        <Item v-if="node.item_list && node.item_list.length" @handle-click="handleClick"   :node="node">
+            <node v-for="item in node.item_list" :node="item" @handle-click="handleClick"  ></node>
+        </Item>
+        <Item v-else @handle-click="handleClick" :node="node">
+        </Item>
 </template>
 <script>
+import Item from "@/components/Item.vue"
 export default {
     name: "node",
-
     props: {
         node: Object,
-        // selected_item: Object
-        handleClick: Function
+        selected_item: Object,
+        // handleClick: Function
+    },
+    components:{
+        Item
     },
     methods: {
-        selectedItemSet(node){
-            console.log(node)
-            this.selected_item = node
-        }
+        handleClick (node) {
+                this.$emit('handle-click', node);
+            }
     },
     
 }
