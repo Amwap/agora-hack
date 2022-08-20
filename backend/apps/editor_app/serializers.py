@@ -31,11 +31,14 @@ class ElementSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         parent_id = data["parent_id"]
-        if parent_id is not None:
-            try:
-                Element.objects.get(pk=data["parent_id"])
-            except Element.DoesNotExist:
-                raise serializers.ValidationError("Such element does not exist.")
+        if parent_id is None:
+            queryset = Element.objects.filter(parent_element__isnull=True)
+            if queryset:
+                raise serializers.ValidationError("Main frame exists already.")
+        try:
+            Element.objects.get(pk=data["parent_id"])
+        except Element.DoesNotExist:
+            raise serializers.ValidationError("Such element does not exist.")
         return data
 
     def create(self, validated_data):
