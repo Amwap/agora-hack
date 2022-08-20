@@ -39,8 +39,9 @@ export default {
             this.styles = {
                 height: `${this.node.styles.height}px`,
                 color: this.node.styles.color,
-                'background-color': this.node.styles.background_color
-                'font-size': this.node.styles.font_size
+                'background-color': this.node.styles.background_color,
+                'font-size': `${this.node.styles.font_size}px`,
+                'border-radius': `${this.node.styles.border_radius}px`
                 // width: `${this.node.styles.width}px`
             }
             if (this.node.styles.height == 0){ this.styles.height = 'auto' }

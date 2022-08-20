@@ -16,13 +16,9 @@
       <div class='d-flex flex-row'>
         <div class="d-flex flex-row">
           <div class="form-group  px-2">
-            <label for="input">Height ( px )</label>
-            <input type="number" class="form-control" id="input" placeholder="Enter value" min="0" v-model="selected_item.styles.height">
+            <label for="input">Height (px)</label>
+            <input type="number" class="form-control" id="input" placeholder="Enter value" max="2000" min="1"  v-model="selected_item.styles.height">
           </div>
-          <!-- <div class="form-group">
-            <label for="input">ширина ( px )</label>
-            <input type="number" class="form-control" id="input" placeholder="Enter value" min="0" v-model="selected_item.styles.width">
-          </div> -->
           <div class="form-group px-2">
             <label for="input">Width by grid (1-12)</label>
             <input type="number" class="form-control" id="input" placeholder="Enter value" max="12" min='1' v-model="selected_item.styles.width_grid">
@@ -33,10 +29,14 @@
           </div>
           <div class="form-group px-2" v-show="selected_item.type == 'text'">
             <label for="input">Font size</label>
-            <input type="number" class="form-control" id="input" placeholder="Enter value" max="12" min='1' v-model="selected_item.styles.font_size">
+            <input type="number" class="form-control" id="input" placeholder="Enter value" min='1' v-model="selected_item.styles.font_size">
+          </div>
+          <div class="form-group px-2" v-show="selected_item.type != 'text'">
+            <label for="input">Border radius</label>
+            <input type="number" class="form-control" id="input" placeholder="Enter value" min='0' v-model="selected_item.styles.border_radius">
           </div>
           <div class="form-group px-2">
-            <label>Color</label>
+            <label>Font color</label>
             <div class="input-group my-colorpicker2 colorpicker-element" data-colorpicker-id="2">
               <input type="color" class="form-control" style="height: 38px; width: 45px;" data-original-title="" title="" v-model="selected_item.styles.color">
             </div>
@@ -68,8 +68,6 @@
 </template>
 <script>
 import ItemTree from "@/components/ItemTree.vue"
-import { ColorPicker } from 'vue-color-kit'
-import 'vue-color-kit/dist/vue-color-kit.css'
 
 const base_item = {
     id: 0,
@@ -84,7 +82,9 @@ const base_item = {
       width_grid: 5,
       color: '',
       background_color: '',
-      font_size: '',
+      font_size: 15,
+      border_radius: 0,
+      url: '',
       classes: ['d-flex align-items-center justify-content-center flex-wrap', 'column']
     },
     item_list:[]
