@@ -1,7 +1,7 @@
 from abc import ABC
 
 from django.utils.translation import gettext_lazy as _
-from models import Project, Element
+from models import Project, Element, ElementTemplate
 from rest_framework import serializers
 
 
@@ -27,4 +27,12 @@ class ElementSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Element
-        fields = ["id", "position", "height", "width", "type", "item_list"]
+        fields = ["id", "position", "height", "width", "type", "item_list", "styles"]
+
+
+class ElementTemplateSerializer(serializers.ModelSerializer):
+    element = ElementSerializer()
+
+    class Meta:
+        model = ElementTemplate
+        fields = ["id", "name", "element"]

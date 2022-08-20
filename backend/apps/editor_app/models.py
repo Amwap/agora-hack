@@ -1,7 +1,18 @@
 from django.db import models
 from django.utils import timezone
+from enum import Enum
 
 DATETIME_FORMAT = "%d.%m.%Y %H:%M"
+
+
+class PositionTypes(Enum):
+    CANVAS = "canvas"
+    ROW = "row"
+    COLUMN = "col"
+
+    @classmethod
+    def choices(cls):
+        return [i.value for i in cls]
 
 
 class Element(models.Model):
@@ -10,7 +21,14 @@ class Element(models.Model):
     position = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    type = models.CharField()
+    type = models.CharField(choices=PositionTypes.choices, default=PositionTypes.ROW)
+    styles = models.JSONField()
+
+
+class ElementTemplate(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField()
+    element = models.ForeignKey(Element, on_delete=models.CASCADE)
 
 
 class Project(models.Model):
