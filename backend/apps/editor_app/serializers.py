@@ -5,12 +5,6 @@ from models import Project, Element
 from rest_framework import serializers
 
 
-class ModificationDisplaySerializer(serializers.ModelSerializer):
-    class Meta:
-        # model = Modification
-        fields = '__all__'
-
-
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project

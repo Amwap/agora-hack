@@ -46,7 +46,7 @@ class CreateElement(APIView):
         return Response(status=200)
 
 
-class ElementsView:
+class ElementsView(APIView):
 
     def get(self, request, project_id):
         project = Project.objects.get(id=project_id)
