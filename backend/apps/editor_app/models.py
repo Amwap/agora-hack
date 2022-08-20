@@ -11,7 +11,6 @@ class Element(models.Model):
     height = models.IntegerField()
     width = models.IntegerField()
     type = models.CharField()
-    attributes = models.JSONField()
 
 
 class Project(models.Model):
