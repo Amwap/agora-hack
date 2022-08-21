@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'djoser',
+    'mptt',
 
     'apps.auth_app',
     'apps.editor_app',
@@ -127,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
-
+DATETIME_FORMAT = '%d-%m-%Y %H:%M'
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 

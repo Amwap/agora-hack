@@ -10,7 +10,7 @@ const router = createRouter({
     },
     {
       path: "/editor/:project_id",
-      name: "about",
+      name: "editor",
       component: () => import("../views/Editor.vue"),
     },
     {

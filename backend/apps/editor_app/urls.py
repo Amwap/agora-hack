@@ -1,6 +1,9 @@
 from django.urls import include, path
 
+from apps.editor_app.views import ProjectListView, ProjectView
 
 urlpatterns = [
-    # path('me/', MeView.as_view(), name='me'),
+    path('create/project/', ProjectView.as_view(), name='create-project-view'),
+    path('get/project/', ProjectView.as_view(), name='create-project-view'),
+    path('get/project_list/', ProjectListView.as_view(), name='project-list-view'),
 ]

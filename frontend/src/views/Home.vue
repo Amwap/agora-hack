@@ -22,23 +22,32 @@
 
 <script>
 import moment from "moment";
+import axios from 'axios'
+
+var project_list = []
 export default {
   data() {
     return {
-      project_list:[{
-        id: '1',
-        title: 'Untitled project #1',
-        created_at: '28.07.2022  16:30',
-        last_edit: '28.07.2022  16:30'
-      },
-      {
-        id: '2',
-        title: 'Untitled project #2',
-        created_at: '28.07.2022 16:30',
-        last_edit: '28.07.2022 16:30'
-      },
-      ]
+      project_list: []
     }
+  },
+  methods:{
+    getData(){
+      axios.request({
+        method: 'get',
+        url: `${import.meta.env.VITE_API_URL}api/v1/editor/get/project_list/`,
+        // data: base_item,
+        })
+      .then((response) => {
+        this.project_list = response.data
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
+  },
+  mounted() {
+    this.getData()
   },
   
 }
