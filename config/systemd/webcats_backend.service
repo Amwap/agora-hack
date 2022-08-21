@@ -7,9 +7,9 @@ Restart=always
 RestartSec=5
 Nice=1
 SuccessExitStatus=0 1
-WorkingDirectory=/home/webcats/webcats/backend
-ExecStart=/home/webcats/webcats/backend/venv/bin/uwsgi --ini config/uwsgi/uwsgi.ini
-ExecStop=/home/webcats/webcats/backend/venv/bin/uwsgi --stop config/uwsgi/webcats.pid
+WorkingDirectory=/home/webcats/webcats/
+ExecStart=/home/webcats/webcats/backend/venv/bin/uwsgi --ini backend/config/uwsgi/uwsgi.ini
+ExecStop=/home/webcats/webcats/backend/venv/bin/uwsgi --stop backend/config/uwsgi/webcats.pid
 
 [Install]
 WantedBy=multi-user.target
