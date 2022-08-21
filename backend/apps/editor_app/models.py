@@ -47,7 +47,6 @@ class Project(models.Model):
     def __str__(self) -> str:
         return str(self.title)
 
-
 # DATETIME_FORMAT = "%d.%m.%Y %H:%M"
 
 # class TypeChoices(Enum):

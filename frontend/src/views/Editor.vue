@@ -1,4 +1,6 @@
 <template lang="">
+    <Crutch :class="{'d-block': show_preview, 'd-none': show_preview}" @hidePreview="show_preview=false" :canvas="show_preview=true"/>
+
   <div class="col-md-12 p-5 pt-3 d-flex align-items-start flex-column">
     <div
       class="col-md-12 d-flex flex-row justify-content-between card p-2 mb-1"
@@ -150,7 +152,16 @@
           >
             Create image
           </button>
+          <button
+            type="button"
+            class="btn btn-block btn-warning btn-sm my-1"
+            @click="addImage"
+            
+          >
+            Preview
+          </button>
         </div>
+        
       </div>
     </div>
 
@@ -162,12 +173,14 @@
       />
     </div>
   </div>
+  
 </template>
 <script>
 import ItemTree from "@/components/ItemTree.vue";
+import Crutch from "@/components/Crutch.vue";
 import axios from 'axios'
 const base_item = {
-  id: 0,
+  id: Date.now(),
   type: "canvas",
   active: false,
   deleted: false,
@@ -196,12 +209,14 @@ canvas_root.type = "canvas-root";
 export default {
   components: {
     ItemTree,
+    Crutch
   },
   data() {
     return {
       project_id: JSON.parse(localStorage.getItem('project_id')),
       selected_item: base_item,
       canvas: canvas_root,
+      show_preview: false,
       color_code: null,
       colors: [
         { hex: "#FFFFFF" },
@@ -234,22 +249,21 @@ export default {
       this.selected_item.active = !this.selected_item.active;
       this.selected_item = node;
     },
-    saveItemData(){
-
-    },
+    
     createNewItem(){
       var new_item = JSON.parse(JSON.stringify(base_item));
       new_item.id = Date.now()
       new_item.parent = this.selected_item.id
       new_item.active = false;
       return new_item
-    }
+    },
     addCanvas() {
       var new_item = this.createNewItem()
       this.selected_item.item_list.push(new_item);
       if (base_item.item_list.length != 0) {
         base_item.item_list.splice(0, 1);
       }
+      this.saveItemData(new_item)
     },
     addText() {
       var new_item = this.createNewItem()
@@ -259,6 +273,7 @@ export default {
       if (base_item.item_list.length != 0) {
         base_item.item_list.splice(0, 1);
       }
+      this.saveItemData(new_item)
     },
     addImage() {
       var new_item = this.createNewItem()
@@ -267,8 +282,34 @@ export default {
       if (base_item.item_list.length != 0) {
         base_item.item_list.splice(0, 1);
       }
+      this.saveItemData(new_item)
     },
-
+    saveItemData(new_item){
+      axios.request({
+          method: 'post',
+          url: `${import.meta.env.VITE_API_URL}api/v1/editor/item/`,
+          data: new_item,
+          })
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    updateItemData(){
+      axios.request({
+          method: 'update',
+          url: `${import.meta.env.VITE_API_URL}api/v1/editor/item/`,
+          data: this.selected_item,
+          })
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     deleteItem() {
       if (this.selected_item.type == "canvas-root") {
         return;
@@ -277,6 +318,18 @@ export default {
       this.selected_item.deleted = true;
       console.log(this.selected_item.deleted);
       this.selected_item = base_item;
+
+      axios.request({
+          method: 'delete',
+          url: `${import.meta.env.VITE_API_URL}api/v1/editor/item/`,
+          data: this.selected_item,
+          })
+        .then((response) => {
+            console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
   },
 
@@ -290,6 +343,7 @@ export default {
           })
         .then((response) => {
             this.project_id = response.data.project_id
+            this.selected_item.id = response.data.root_id
             this.$router.push({name: 'editor', params: { project_id: this.project_id } })
         })
         .catch(function (error) {
@@ -299,7 +353,7 @@ export default {
     else if (project_id != 'new'){
         this.project_id
         axios.request({
-          method: 'post',
+          method: 'get',
           url: `${import.meta.env.VITE_API_URL}api/v1/editor/get/layout/${project_id}`,
           data: base_item,
           })

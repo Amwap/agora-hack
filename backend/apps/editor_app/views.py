@@ -1,7 +1,3 @@
-# from apps.editor_app.models import Element, ElementTemplate, Project
-# from apps.editor_app.serializers import (ElementSerializer,
-#                                          ElementTemplateSerializer,
-#                                          ProjectSerializer)
 from django.views import generic
 from rest_framework import status
 from rest_framework.generics import (ListAPIView, ListCreateAPIView,
@@ -14,6 +10,9 @@ from apps.editor_app.models import Project
 from apps.editor_app.serializers import (CreateProjectSerializer,
                                          ProjectListSerializer,
                                          ProjectSerializer)
+from apps.editor_app.serializers import ItemSerializer
+from apps.editor_app.models import Item
+from apps.editor_app.serializers import ItemTreeSerializer
 
 
 class ProjectView(APIView):
@@ -24,19 +23,56 @@ class ProjectView(APIView):
         serializer.is_valid(raise_exception=True)
         instance = serializer.create()
         data = {
-            "project_id": instance.id
+            "project_id": instance.id,
+            "root_id": instance.root_canvas.id
         }
         return Response(status=status.HTTP_200_OK, data=data)
 
-    def get(self, request):
-        """ Плучает проект по его id  """
 
 class ProjectListView(ListAPIView):
+    """ возвращает список объектов """
     queryset = Project.objects.all()
     serializer_class = ProjectListSerializer
 
+class ItemView(APIView):
+    def post(self, request):
+        """ Создаёт новый элемент """
+        serializer = ItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.create()
+        data = {}
+        return Response(status=status.HTTP_200_OK, data=data)
 
-# class CreateProjectView(APIView):
+    def update(self, request):
+        """ обновляет элемент """
+        serializer = ItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.update()
+        data = {}
+        return Response(status=status.HTTP_200_OK, data=data)
+
+    def delete(self, request):
+        """ Удаляет элемент """
+        serializer = ItemSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.delete()
+        data = {}
+        return Response(status=status.HTTP_200_OK, data=data)
+
+
+class LayoutView(APIView):
+    """ Возвращает разметку проекта """
+    parser_classes = [JSONParser, ]
+    def get(self, request, project_id):
+        ItemTreeSerializer(data=request.data)
+
+
+    def get_queryset(self):
+        project_id = self.request.data.get('project_id')
+        project = Project.objects.get(id=project_id)
+        queryset = Item.objects.filter(project=project)
+        return queryset
+
 #     parser_classes = [JSONParser, ]
 
 #     def post(self, request):
