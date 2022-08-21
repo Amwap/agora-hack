@@ -1,6 +1,5 @@
 <template lang="">
     <!-- <Crutch :class="{'d-block': show_preview, 'd-none': show_preview}" @hidePreview="show_preview=false" :canvas="show_preview=true"/> -->
-
 <nav class="navbar navbar-light bg-light">
   <router-link class="" :to="'/'">
       <button class="btn btn-block btn-outline-secondary btn-sm">
