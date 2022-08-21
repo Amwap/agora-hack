@@ -234,7 +234,10 @@ export default {
       this.selected_item.active = !this.selected_item.active;
       this.selected_item = node;
     },
-    newItem(){
+    saveItemData(){
+
+    },
+    createNewItem(){
       var new_item = JSON.parse(JSON.stringify(base_item));
       new_item.id = Date.now()
       new_item.parent = this.selected_item.id
@@ -242,14 +245,14 @@ export default {
       return new_item
     }
     addCanvas() {
-      this.
+      var new_item = this.createNewItem()
       this.selected_item.item_list.push(new_item);
       if (base_item.item_list.length != 0) {
         base_item.item_list.splice(0, 1);
       }
     },
     addText() {
-      this.
+      var new_item = this.createNewItem()
       new_item.styles.value = "New text";
       new_item.type = "text";
       this.selected_item.item_list.push(new_item);
@@ -258,13 +261,14 @@ export default {
       }
     },
     addImage() {
-      this.
+      var new_item = this.createNewItem()
       new_item.type = "image";
       this.selected_item.item_list.push(new_item);
       if (base_item.item_list.length != 0) {
         base_item.item_list.splice(0, 1);
       }
     },
+
     deleteItem() {
       if (this.selected_item.type == "canvas-root") {
         return;
@@ -293,9 +297,10 @@ export default {
         });
       }
     else if (project_id != 'new'){
+        this.project_id
         axios.request({
           method: 'post',
-          url: `${import.meta.env.VITE_API_URL}api/v1/editor/get/project/`,
+          url: `${import.meta.env.VITE_API_URL}api/v1/editor/get/layout/${project_id}`,
           data: base_item,
           })
         .then((response) => {
