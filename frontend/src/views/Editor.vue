@@ -1,18 +1,20 @@
 <template lang="">
-    <Crutch :class="{'d-block': show_preview, 'd-none': show_preview}" @hidePreview="show_preview=false" :canvas="show_preview=true"/>
+    <!-- <Crutch :class="{'d-block': show_preview, 'd-none': show_preview}" @hidePreview="show_preview=false" :canvas="show_preview=true"/> -->
 
+<nav class="navbar navbar-light bg-light">
+  <router-link class="" :to="'/'">
+      <button class="btn btn-block btn-outline-secondary btn-sm">
+        <img src="https://img.icons8.com/ios-glyphs/30/5B6A6D/circled-menu.png"/>
+      </button>
+    </router-link>
+  <a class="navbar-brand" href="#">
+  </a>
+</nav>
   <div class="col-md-12 p-5 pt-3 d-flex align-items-start flex-column">
-    <div
-      class="col-md-12 d-flex flex-row justify-content-between card p-2 mb-1"
-    >
+    <div class="col-md-12 d-flex flex-row justify-content-between card p-2 mb-1">
       <div class="d-flex flex-row">
         <div class="d-flex flex-column">
-          <h3>Editor</h3>
-          <router-link class="" :to="'/'">
-            <button class="btn btn-block btn-outline-secondary btn-sm">
-              &lt;- Back
-            </button>
-          </router-link>
+          <h3>Editor</h3>          
           <div class="d-flex flex-column pt-3">
             <div>
               Project ID: <b>{{ getProjectId }}</b>
