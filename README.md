@@ -22,3 +22,6 @@ sudo ln -s "$PWD/config/systemd/webcats_frontend.service" /etc/systemd/system/
 ## systemd
 sudo ln -s "$PWD/config/nginx/webcats_nginx.conf" /etc/nginx/sites-available/
 sudo ln -s "$PWD/config/nginx/webcats_nginx.conf" /etc/nginx/sites-enabled/
+
+##
+http://dev-server.space/
