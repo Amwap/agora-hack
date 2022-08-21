@@ -10,6 +10,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -42,7 +43,7 @@ class UserManager(BaseUserManager):
                 phone=phone,
                 **extra_fields
             )
-        
+
         # проверяем является ли пользователь
         # суперпользователем
         if extra_fields.get('is_superuser'):
@@ -91,8 +92,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('Пользователь')
         verbose_name_plural = _('Список пользователей')
-        unique_together = ('username', 'email', 'phone') 
+        unique_together = ('username', 'email', 'phone')
 
     def __str__(self):
         return f"{self.email}"
-

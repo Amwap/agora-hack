@@ -1,7 +1,10 @@
-from django.urls import include, path
-
-from apps.editor_app.views import (ItemView, LayoutView, ProjectListView,
-                                   ProjectView)
+from django.urls import path
+from apps.editor_app.views import (
+    ItemView,
+    LayoutView,
+    ProjectListView,
+    ProjectView,
+)
 
 urlpatterns = [
     path('create/project/', ProjectView.as_view(), name='create-project-view'),

@@ -1,22 +1,21 @@
-from django.views import generic
 from rest_framework import status
-from rest_framework.generics import (ListAPIView, ListCreateAPIView,
-                                     RetrieveAPIView)
+from rest_framework.generics import ListAPIView
 from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from apps.editor_app.models import Project
-from apps.editor_app.serializers import (CreateProjectSerializer,
-                                         ProjectListSerializer,
-                                         ProjectSerializer)
-from apps.editor_app.serializers import ItemSerializer
-from apps.editor_app.models import Item
-from apps.editor_app.serializers import ItemTreeSerializer
+from apps.editor_app.models import Project, Item
+from apps.editor_app.serializers import (
+    CreateProjectSerializer,
+    ProjectListSerializer,
+    ProjectSerializer,
+    ItemSerializer,
+    ItemTreeSerializer
+)
 
 
 class ProjectView(APIView):
     parser_classes = [JSONParser, ]
+
     def post(self, request):
         """ Создаёт новый проект, возвращает его id """
         serializer = CreateProjectSerializer(data=request.data)
@@ -30,9 +29,10 @@ class ProjectView(APIView):
 
 
 class ProjectListView(ListAPIView):
-    """ возвращает список объектов """
+    """ Возвращает список объектов """
     queryset = Project.objects.all()
     serializer_class = ProjectListSerializer
+
 
 class ItemView(APIView):
     def post(self, request):
@@ -44,7 +44,7 @@ class ItemView(APIView):
         return Response(status=status.HTTP_200_OK, data=data)
 
     def update(self, request):
-        """ обновляет элемент """
+        """ Обновляет элемент """
         serializer = ItemSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.update()
@@ -63,132 +63,12 @@ class ItemView(APIView):
 class LayoutView(APIView):
     """ Возвращает разметку проекта """
     parser_classes = [JSONParser, ]
+
     def get(self, request, project_id):
         ItemTreeSerializer(data=request.data)
-
 
     def get_queryset(self):
         project_id = self.request.data.get('project_id')
         project = Project.objects.get(id=project_id)
         queryset = Item.objects.filter(project=project)
         return queryset
-
-#     parser_classes = [JSONParser, ]
-
-#     def post(self, request):
-#         print(request.data)
-#         data = request.data
-
-#         serializer = ProjectSerializer(data=data)
-#         serializer.is_valid()
-#         project = serializer.create(data)
-#         project.save()
-#         return Response(data={"id": project.id}, status=status.HTTP_200_OK)
-        
-        # data = request.data
-        # serializer = ProjectSerializer(data=data)
-        # serializer.is_valid(raise_exception=True)
-        # project = serializer.create(data)
-        # project.save()
-
-        # main_frame = Element(parent_element=None,
-        #                      position=0,
-        #                      type="canvas",
-        #                      deleted=False,
-        #                      styles={"value": '',
-        #                              "height": 0,
-        #                              "width": 0,
-        #                              "width_grid": 5,
-        #                              "classes": ['d-flex align-items-center justify-content-center flex-wrap']}
-        #                      )
-        # main_frame.save()
-        # project.main_frame = main_frame
-        # main_frame_json = model_to_dict(main_frame)
-        # main_frame_json["active"] = False
-        # return Response(data={"id": project.id, "main_frame": main_frame_json}, status=status.HTTP_200_OK)
-
-
-# class ProjectsView(APIView):
-
-#     def get(self, request):
-#         projects = Project.objects.all()
-#         serializer = ProjectSerializer(projects, many=True)
-#         return Response(serializer.data)
-
-
-# class CreateElement(APIView):
-#     parser_classes = [JSONParser, ]
-
-#     def post(self, request, project_id):
-
-#         try:
-#             project = Project.objects.get(pk=project_id)
-#         except Project.DoesNotExist:
-#             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
-
-#         data = request.data
-#         serializer = ElementSerializer(data=data)
-#         serializer.is_valid(raise_exception=True)
-
-#         if "id" in data:
-#             try:
-#                 element = Element.objects.get(pk=data.id)
-#             except Element.DoesNotExist:
-#                 return Response(data={}, status=status.HTTP_404_NOT_FOUND)
-#             element = serializer.update(element, data)
-#         else:
-#             element = serializer.create(data)
-#             element.project = project
-
-#         element.save()
-#         return Response(data={"id": element.id}, status=status.HTTP_200_OK)
-
-
-# class ElementsView(APIView):
-
-#     def get(self, request, project_id):
-
-#         try:
-#             project = Project.objects.get(pk=project_id)
-#         except Project.DoesNotExist:
-#             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
-
-#         main_frame = project.main_frame
-#         serializer = ElementSerializer(main_frame)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# class ElementTemplatesView(APIView):
-#     parser_classes = [JSONParser, ]
-
-#     def get(self, request):
-#         element_templates = ElementTemplate.objects.all()
-#         serializer = ElementTemplateSerializer(element_templates, many=True)
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-
-# class CreateElementTemplateView(APIView):
-#     parser_classes = [JSONParser, ]
-#
-#     def post(self, request, project_id):
-#
-#         try:
-#             project = Project.objects.get(pk=project_id)
-#         except Project.DoesNotExist:
-#             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
-#
-#         data = request.data
-#         parent_id = data.parent_id
-#
-#         try:
-#             parent = Element.objects.get(pk=parent_id)
-#         except Element.DoesNotExist:
-#             return Response(data={}, status=status.HTTP_404_NOT_FOUND)
-#
-#         data.pop("parent_id")
-#         data["parent"] = None
-#         serializer = ElementSerializer(data=data)
-#         serializer.is_valid(raise_exception=True)
-#         element = serializer.create(data)
-#         element.project = project
-#         element.save()
-#         return Response(status=status.HTTP_200_OK)
